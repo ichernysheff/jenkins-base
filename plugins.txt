@@ -1,0 +1,9 @@
+cloudbees-folder:6.800.v71307ca_b_986b
+configuration-as-code:1569.vb_72405b_80249
+git-client:3.13.1
+git:4.14.3
+gitlab-branch-source:643.vdc12a_4a_06434
+job-dsl:1.81
+remote-file:1.23
+basic-branch-build-strategies:71.vc1421f89888e
+role-strategy:569.v7476f8e4fe29
