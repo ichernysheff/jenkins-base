@@ -7,3 +7,8 @@ job-dsl:1.81
 remote-file:1.23
 basic-branch-build-strategies:71.vc1421f89888e
 role-strategy:569.v7476f8e4fe29
+blueocean-config:1.25.8
+blueocean-autofavorite:1.2.5
+ldap:2.12
+bootstrap5-api:5.2.1-3
+blueocean-events:1.25.8

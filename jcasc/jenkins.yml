@@ -5,7 +5,19 @@ jenkins:
       env:
       - key: VAR_1
         value: hello
-        
+
+  nodes:
+    - permanent:
+        name: "master"
+        remoteFS: "/jenkins/nodes/master"
+        launcher:
+          jnlp:
+            workDirSettings:
+              disabled: true
+              failIfWorkDirIsMissing: false
+              internalDir: "remoting"
+              workDirPath: "/tmp"
+
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
@@ -17,3 +29,28 @@ jenkins:
             name: admin
             password: admin
 
+jobs:
+  - script: >
+      pipelineJob('DeployJenkins') {
+        triggers {
+          scm('* * * * *')
+        }
+        definition {
+          cps {
+            script("""\
+              node('master') {
+                deleteDir()
+                stage('Deploy Jenkins') {
+                  git(url: 'https://github.com/ichernysheff/jenkins-base', 
+                    branch: 'master')
+                  sh(label: 'Update Jenkins config', 
+                    script: '''
+                      rm /jenkins/casc_configs/jenkins.yml
+                      cp ./jcasc/jenkins.yml /jenkins/casc_configs/jenkins.yml
+                      curl -X POST 127.0.0.1:8080/configuration-as-code/reload
+                    ''')
+                }
+              }""".stripIndent())
+          }
+        }
+      }
