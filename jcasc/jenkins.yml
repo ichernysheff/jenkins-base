@@ -3,9 +3,17 @@ jenkins:
   globalNodeProperties:
   - envVars:
       env:
-      - key: VARIABLE1
-        value: foo
-      - key: VARIABLE2
-        value: bar
-      - key: VARIABLE3
-        value: a
+      - key: VAR_1
+        value: hello
+        
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+  securityRealm:
+      local:
+        users:
+          - id: admin
+            name: admin
+            password: admin
+
