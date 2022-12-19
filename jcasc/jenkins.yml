@@ -9,7 +9,7 @@ jenkins:
   nodes:
     - permanent:
         name: "master"
-        remoteFS: "/jenkins/nodes/master"
+        remoteFS: "/home/jenkins/master_agent"
         launcher:
           jnlp:
             workDirSettings:
@@ -38,15 +38,15 @@ jobs:
         definition {
           cps {
             script("""\
-              node('master') {
+              node(label any) {
                 deleteDir()
                 stage('Deploy Jenkins') {
                   git(url: 'https://github.com/ichernysheff/jenkins-base', 
                     branch: 'master')
                   sh(label: 'Update Jenkins config', 
                     script: '''
-                      rm /jenkins/casc_configs/jenkins.yml
-                      cp ./jcasc/jenkins.yml /jenkins/casc_configs/jenkins.yml
+                      rm /home/jenkins/casc_configs/jenkins.yml
+                      cp ./jcasc/jenkins.yml /home/jenkins/casc_configs/jenkins.yml
                       curl -X POST 127.0.0.1:8080/configuration-as-code/reload
                     ''')
                 }
