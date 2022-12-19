@@ -5,18 +5,8 @@ jenkins:
       env:
       - key: VAR_1
         value: hello
-
-  nodes:
-    - permanent:
-        name: "master"
-        remoteFS: "/home/jenkins/master_agent"
-        launcher:
-          jnlp:
-            workDirSettings:
-              disabled: true
-              failIfWorkDirIsMissing: false
-              internalDir: "remoting"
-              workDirPath: "/tmp"
+      - key: VAR_2
+        value: hello
 
   authorizationStrategy:
     loggedInUsersCanDoAnything:
