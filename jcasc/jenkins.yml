@@ -3,44 +3,12 @@ jenkins:
   globalNodeProperties:
   - envVars:
       env:
-      - key: VAR_1
-        value: hello
-      - key: VAR_2
-        value: hello
+      - key: BUILDS_PATH
+        value: /home/jenkins/data/builds
 
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
 
-  securityRealm:
-      local:
-        users:
-          - id: admin
-            name: admin
-            password: admin
-
 jobs:
-  - script: >
-      pipelineJob('DeployJenkins') {
-        triggers {
-          scm('* * * * *')
-        }
-        definition {
-          cps {
-            script("""\
-              node(label any) {
-                deleteDir()
-                stage('Deploy Jenkins') {
-                  git(url: 'https://github.com/ichernysheff/jenkins-base', 
-                    branch: 'master')
-                  sh(label: 'Update Jenkins config', 
-                    script: '''
-                      rm /home/jenkins/casc_configs/jenkins.yml
-                      cp ./jcasc/jenkins.yml /home/jenkins/casc_configs/jenkins.yml
-                      curl -X POST 127.0.0.1:8080/configuration-as-code/reload
-                    ''')
-                }
-              }""".stripIndent())
-          }
-        }
-      }
+  - file: /home/jenkins/data/jobs/seedJob.groovy

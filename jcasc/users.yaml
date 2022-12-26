@@ -1,0 +1,7 @@
+jenkins:
+  securityRealm:
+      local:
+        users:
+          - id: admin
+            name: admin
+            password: admin
