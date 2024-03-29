@@ -1,0 +1,37 @@
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+      loggedInUsersCanDoAnything:
+        allowAnonymousRead: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  markupFormatter:
+    rawHtml:
+      disableSyntaxHighlighting: false
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 10
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    local:
+      users:
+       - id: admin
+         password: admin
+      allowsSignup: false
+      enableCaptcha: false
+  slaveAgentPort: 50000
+  systemMessage: |+
+    Jenkins configured automatically by Jenkins Configuration as Code plugin
+  views:
+  - all:
+      name: "all"
+  viewsTabBar: "standard"

@@ -1,0 +1,12 @@
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "noHostKeyVerificationStrategy"
+  gitHooks:
+    allowedOnAgents: true
+    allowedOnController: true
+  scriptApproval:
+    approvedSignatures:
+    - "method hudson.model.ItemGroup getItem java.lang.String"
+    - "method hudson.model.Item delete"

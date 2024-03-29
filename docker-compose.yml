@@ -1,0 +1,49 @@
+version: '3.5'
+services:
+  jenkins:
+    container_name: jenkins-${JENKINS_NAME}
+    hostname: jenkins
+    image: ${JENKINS_IMAGE}
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - JAVA_OPTIONS=${JAVA_OPTIONS}
+        - JENKINS_VERSION=${JENKINS_VERSION}
+    restart: always
+    ports:
+      - 50000:50000
+      - 8080:8080
+    logging:
+      options:
+        max-size: 900m
+    volumes:
+      - jenkins_data:/home/jenkins/data/
+      - "./jcasc:/jcasc"
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
+    network_mode: bridge
+    environment:
+      CASC_JENKINS_CONFIG: /jcasc
+      JAVA_OPTS: >-
+        -Djenkins.install.runSetupWizard=false
+        -Djava.awt.headless=true
+        -server 
+        -XX:+AlwaysPreTouch
+        -Xms${JVM_MEM_SIZE}
+        -Xmx${JVM_MEM_SIZE}
+        -XX:+UseG1GC
+        -XX:+ExplicitGCInvokesConcurrent
+        -XX:+ParallelRefProcEnabled 
+        -XX:+UseStringDeduplication
+        -XX:+UnlockExperimentalVMOptions 
+        -XX:G1NewSizePercent=20
+        -XX:+UnlockDiagnosticVMOptions 
+        -XX:G1SummarizeRSetStatsPeriod=1
+        -XX:+ExplicitGCInvokesConcurrent
+        -XX:MaxGCPauseMillis=200
+        -Xlog:gc*=info,gc+heap=debug,gc+ref*=debug,gc+ergo*=trace,gc+age*=trace:file=/home/jenkins/data/gc.log:utctime,pid,level,tags:filecount=2,filesize=200M
+
+volumes:
+  jenkins_data:
+    name: ${VOLUME_NAME}
